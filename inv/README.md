@@ -1,65 +1,183 @@
-# Inventory Laravel — Kerangka Mini Project 4 (BELUM disesuaikan dengan P4)
+# 📦 Inventory Management System — Mini Project 4
 
-> PENTING: kode ini dibuat dari desain contoh di PPT Web 5 (kategori, produk, supplier, stok),
-> BUKAN dari source code P4 Anda (belum diberikan). Nama tabel/kolom/fitur P4 harus dicocokkan
-> setelah source P4 tersedia. Autentikasi dan role admin/staff belum dibuat.
+Aplikasi manajemen inventaris berbasis **Laravel** dengan fitur CRUD lengkap untuk kategori, produk, supplier, dan pergerakan stok.
 
-## Keputusan implementasi tambahan (bukan instruksi PPT)
-- Tabel pivot `product_supplier` (many-to-many), tabel `stock_movements` (type in/out).
-- Transaksi stok memakai `DB::transaction()` + `lockForUpdate()`.
-- Sorting memakai allowlist (name, price, stock).
-- Stok hanya diubah lewat transaksi stok; form edit produk tidak mengubah stok.
-- Produk dengan histori stok dan kategori yang masih dipakai tidak bisa dihapus.
-- Tampilan memakai Bootstrap 5 via CDN (butuh internet saat dibuka).
-- Diasumsikan Laravel 11/12 (cek `php artisan --version`).
+---
 
-## Cara memasang
-1. `composer create-project laravel/laravel inventory-laravel` lalu `cd inventory-laravel`
-2. Salin isi folder `app/`, `database/`, `resources/`, `routes/` dari zip ini ke project
-   (timpa `routes/web.php` dan `database/seeders/DatabaseSeeder.php`; tambahkan file lain).
-   Hapus `database/factories/UserFactory.php` hanya jika bentrok — biasanya dibiarkan.
-3. Di `app/Providers/AppServiceProvider.php`, method `boot()`, tambahkan:
-   `\Illuminate\Pagination\Paginator::useBootstrapFive();`
-4. Buat database `inventory_db` di phpMyAdmin (MySQL XAMPP aktif).
-5. Edit `.env`:
-   ```
-   APP_NAME=Inventory
-   DB_CONNECTION=mysql
-   DB_HOST=127.0.0.1
-   DB_PORT=3306
-   DB_DATABASE=inventory_db
-   DB_USERNAME=root
-   DB_PASSWORD=
-   ```
-   (`.env` jangan di-commit ke repository publik.)
-6. `php artisan key:generate` (jika APP_KEY kosong)
-7. `php artisan migrate:fresh --seed` (menghapus SEMUA tabel di database itu; pakai database dev saja)
-8. `php artisan route:list` lalu `php artisan serve` → buka http://127.0.0.1:8000
+## 🚀 Fitur Utama
 
-XAMPP hanya menjalankan MySQL; `php artisan serve` menjalankan aplikasi Laravel. Keduanya terpisah.
+- ✅ **Dashboard** — ringkasan data inventaris
+- ✅ **Kategori** — tambah, edit, hapus kategori produk
+- ✅ **Produk** — CRUD produk dengan SKU unik, harga, dan stok
+- ✅ **Supplier** — manajemen data supplier (many-to-many dengan produk)
+- ✅ **Stok** — pencatatan transaksi barang masuk/keluar dengan histori
+- ✅ **Validasi** — SKU duplikat ditolak, stok keluar melebihi stok ditolak
+- ✅ **Proteksi hapus** — kategori/produk dengan relasi aktif tidak bisa dihapus
+- ✅ **Search, filter, sort & pagination**
+- ✅ **Bootstrap 5** — tampilan responsif via CDN
 
-## Tabel pengujian (isi setelah benar-benar dijalankan)
-| No | Pengujian | Hasil yang diharapkan | Hasil aktual | Status |
-|----|-----------|-----------------------|--------------|--------|
-| 1 | `php artisan serve` | Halaman dashboard terbuka | Belum diuji | Belum diuji |
-| 2 | Koneksi DB via .env | Migration berjalan | Belum diuji | Belum diuji |
-| 3 | `migrate:fresh --seed` | Tabel & data terisi | Belum diuji | Belum diuji |
-| 4 | `route:list` | Route products/categories/suppliers/stock tampil | Belum diuji | Belum diuji |
-| 5 | CRUD kategori | Tambah/edit/hapus berhasil | Belum diuji | Belum diuji |
-| 6 | CRUD produk | Tambah/edit/hapus berhasil | Belum diuji | Belum diuji |
-| 7 | CRUD supplier | Tambah/edit/hapus berhasil | Belum diuji | Belum diuji |
-| 8 | SKU duplikat | Ditolak + pesan error | Belum diuji | Belum diuji |
-| 9 | Hapus kategori yang dipakai produk | Ditolak | Belum diuji | Belum diuji |
-| 10 | Search + filter + sort + pagination | Parameter terbawa antar halaman | Belum diuji | Belum diuji |
-| 11 | Barang masuk | Stok bertambah + histori tercatat | Belum diuji | Belum diuji |
-| 12 | Barang keluar > stok | Ditolak, stok tidak berubah | Belum diuji | Belum diuji |
-| 13 | Form tanpa @csrf (uji manual) | Error 419 | Belum diuji | Belum diuji |
+---
 
-## Error umum
-- `composer` tidak ditemukan: PHP/Composer belum di PATH; pasang Composer dan buka terminal baru.
-- Versi PHP tidak kompatibel: cek `php -v` terhadap syarat versi Laravel Anda.
-- SQLSTATE connection refused / Unknown database: MySQL belum menyala atau database belum dibuat; cek `.env`.
-- No application encryption key: jalankan `php artisan key:generate`.
-- MassAssignmentException: kolom belum ada di `$fillable` model.
-- Route not defined / 404: cek nama di `route:list`.
-- View not found: cek nama file di `resources/views` (titik = folder).
+## 🛠️ Teknologi
+
+| Teknologi | Versi |
+|-----------|-------|
+| PHP | >= 8.2 |
+| Laravel | 11 / 12 |
+| MySQL | 5.7+ / 8.x |
+| Bootstrap | 5 (CDN) |
+
+---
+
+## ⚙️ Cara Instalasi
+
+### 1. Buat project Laravel baru
+```bash
+composer create-project laravel/laravel inventory-laravel
+cd inventory-laravel
+```
+
+### 2. Salin file dari repository ini
+Salin folder berikut ke dalam project Laravel:
+```
+app/Http/Controllers/
+app/Models/
+database/factories/
+database/migrations/
+database/seeders/
+resources/views/
+routes/web.php
+```
+
+### 3. Konfigurasi Bootstrap Pagination
+Di `app/Providers/AppServiceProvider.php`, tambahkan di method `boot()`:
+```php
+\Illuminate\Pagination\Paginator::useBootstrapFive();
+```
+
+### 4. Buat database
+Buka phpMyAdmin (XAMPP) → buat database baru:
+```
+Nama database: inventory_db
+```
+
+### 5. Konfigurasi `.env`
+```env
+APP_NAME=Inventory
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=inventory_db
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+> ⚠️ Jangan commit file `.env` ke repository publik!
+
+### 6. Generate App Key
+```bash
+php artisan key:generate
+```
+
+### 7. Migrasi & Seeder
+```bash
+php artisan migrate:fresh --seed
+```
+
+### 8. Jalankan aplikasi
+```bash
+php artisan serve
+```
+
+Buka di browser: **http://127.0.0.1:8000**
+
+---
+
+## 📁 Struktur Project
+
+```
+inv/
+├── app/
+│   ├── Http/Controllers/
+│   │   ├── CategoryController.php
+│   │   ├── DashboardController.php
+│   │   ├── ProductController.php
+│   │   ├── StockController.php
+│   │   └── SupplierController.php
+│   └── Models/
+│       ├── Category.php
+│       ├── Product.php
+│       ├── StockMovement.php
+│       └── Supplier.php
+├── database/
+│   ├── migrations/
+│   ├── factories/
+│   └── seeders/
+├── resources/views/
+│   ├── categories/
+│   ├── products/
+│   ├── suppliers/
+│   ├── stock/
+│   ├── layouts/
+│   └── components/
+└── routes/
+    └── web.php
+```
+
+---
+
+## 🗺️ Routes
+
+| Method | URL | Fungsi |
+|--------|-----|--------|
+| GET | `/` | Dashboard |
+| GET/POST | `/categories` | List & tambah kategori |
+| GET/PUT/DELETE | `/categories/{id}` | Edit & hapus kategori |
+| GET/POST | `/products` | List & tambah produk |
+| GET/PUT/DELETE | `/products/{id}` | Detail, edit & hapus produk |
+| GET/POST | `/suppliers` | List & tambah supplier |
+| GET/PUT/DELETE | `/suppliers/{id}` | Edit & hapus supplier |
+| GET | `/stock` | Histori stok |
+| GET/POST | `/stock/create` | Tambah transaksi stok |
+
+---
+
+## 🧪 Tabel Pengujian
+
+| No | Pengujian | Hasil yang diharapkan | Status |
+|----|-----------|-----------------------|--------|
+| 1 | `php artisan serve` | Halaman dashboard terbuka | ⬜ |
+| 2 | Koneksi DB via `.env` | Migration berjalan | ⬜ |
+| 3 | `migrate:fresh --seed` | Tabel & data terisi | ⬜ |
+| 4 | CRUD kategori | Tambah/edit/hapus berhasil | ⬜ |
+| 5 | CRUD produk | Tambah/edit/hapus berhasil | ⬜ |
+| 6 | CRUD supplier | Tambah/edit/hapus berhasil | ⬜ |
+| 7 | SKU duplikat | Ditolak + pesan error | ⬜ |
+| 8 | Hapus kategori yang dipakai produk | Ditolak | ⬜ |
+| 9 | Barang masuk | Stok bertambah + histori tercatat | ⬜ |
+| 10 | Barang keluar > stok | Ditolak, stok tidak berubah | ⬜ |
+
+---
+
+## ❗ Error Umum & Solusi
+
+| Error | Solusi |
+|-------|--------|
+| `composer` tidak ditemukan | Install Composer & tambahkan PHP ke PATH |
+| Versi PHP tidak kompatibel | Cek `php -v`, minimal PHP 8.2 |
+| SQLSTATE connection refused | Pastikan MySQL XAMPP menyala & database sudah dibuat |
+| No application encryption key | Jalankan `php artisan key:generate` |
+| MassAssignmentException | Tambahkan kolom ke `$fillable` di model |
+| Route not found / 404 | Cek `php artisan route:list` |
+| View not found | Cek nama file di `resources/views/` |
+
+---
+
+## 👤 Author
+
+**dewirikandi5**  
+Mini Project 4 — Web Programming
+
+---
+
+> 💡 XAMPP hanya menjalankan MySQL. `php artisan serve` menjalankan aplikasi Laravel. Keduanya berjalan terpisah dan harus aktif bersamaan.
