@@ -4,6 +4,16 @@ Aplikasi manajemen inventaris berbasis **Laravel** dengan fitur CRUD lengkap unt
 
 ---
 
+## 📸 Screenshots
+
+### Dashboard
+![Dashboard](screenshots/dashboard.jpg)
+
+### Daftar Produk
+![Daftar Produk](screenshots/produk.jpg)
+
+---
+
 ## 🚀 Fitur Utama
 
 - ✅ **Dashboard** — ringkasan data inventaris
