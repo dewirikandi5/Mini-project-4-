@@ -12,6 +12,9 @@ Aplikasi manajemen inventaris berbasis **Laravel** dengan fitur CRUD lengkap unt
 ### Daftar Produk
 ![Daftar Produk](screenshots/produk.jpg)
 
+### Histori Stok
+![Histori Stok](screenshots/stok.jpg)
+
 ---
 
 ## 🚀 Fitur Utama
