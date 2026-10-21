@@ -109,7 +109,11 @@ Buka di browser: **http://127.0.0.1:8000**
 ## 📁 Struktur Project
 
 ```
-inv/
+Mini-project-4-/
+├── screenshots/
+│   ├── dashboard.jpg
+│   ├── produk.jpg
+│   └── stok.jpg
 ├── app/
 │   ├── Http/Controllers/
 │   │   ├── CategoryController.php
@@ -133,8 +137,9 @@ inv/
 │   ├── stock/
 │   ├── layouts/
 │   └── components/
-└── routes/
-    └── web.php
+├── routes/
+│   └── web.php
+└── README.md
 ```
 
 ---
